@@ -247,4 +247,56 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 10. DYNAMIC TEAM DATA HYDRATION FROM data/team.json
+  const teamGrid = document.getElementById('team-grid');
+  if (teamGrid) {
+    fetch('data/team.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Network error');
+        return response.json();
+      })
+      .then(members => {
+        if (!Array.isArray(members) || members.length === 0) return;
+        
+        const avatarIcons = {
+          rayan: 'fa-code',
+          sufiyan: 'fa-server',
+          sanan: 'fa-paintbrush',
+          aimal: 'fa-bug-slash'
+        };
+
+        teamGrid.innerHTML = members.map(m => {
+          const icon = avatarIcons[m.id] || 'fa-user-astronaut';
+          const skillsHtml = (m.skills || []).map(s => `<span class="team-skill">${s}</span>`).join('');
+          return `
+            <div class="team-card" data-accent="${m.accentColor || 'cyan'}">
+              <div class="team-card-header">
+                <div class="team-avatar avatar-${m.accentColor || 'cyan'}">
+                  <i class="fa-solid ${icon}"></i>
+                </div>
+                <div>
+                  <h3 class="team-name">${m.name}</h3>
+                  <span class="team-role">${m.role}</span>
+                </div>
+              </div>
+              <p class="team-bio">${m.bio}</p>
+              <div class="team-skills">${skillsHtml}</div>
+              <div class="team-links">
+                <a href="${m.page || `members/${m.id}.html`}" class="btn btn-primary team-btn">
+                  <span>View Lab</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="${m.github || '#'}" target="_blank" rel="noopener noreferrer" class="team-social" aria-label="GitHub">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+              </div>
+            </div>
+          `;
+        }).join('');
+      })
+      .catch(() => {
+        // Fallback to static cards already in HTML
+      });
+  }
 });

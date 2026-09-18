@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sufiyan Ahmad | Backend &amp; Cloud Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .member-page { padding-top: 5rem; min-height: 100vh; }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: var(--accent-purple); font-weight: 600; }
+    .member-hero { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 3rem; margin-bottom: 3rem; backdrop-filter: blur(16px); }
+    .member-badge { display: inline-block; padding: 0.35rem 0.85rem; border-radius: var(--border-radius-full); background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
+    .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .showcase-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; transition: transform 0.2s ease, border-color 0.2s ease; }
+    .showcase-card:hover { transform: translateY(-4px); border-color: var(--accent-purple); }
+  </style>
+</head>
+<body>
+  <div class="container member-page">
+    <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Main Hub</a>
+
+    <div class="member-hero">
+      <span class="member-badge"><i class="fa-solid fa-server"></i> Backend &amp; Cloud Systems Lab</span>
+      <h1 class="hero-title">Sufiyan Ahmad</h1>
+      <h3 style="color: var(--accent-purple); margin-bottom: 1rem;">Backend Engineer &amp; Cloud Architect</h3>
+      <p style="max-width: 650px; font-size: 1.1rem; margin-bottom: 1.5rem;">
+        Specializing in high-throughput API endpoints, asynchronous queue architectures, database schema design, and agentic workflows.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="https://github.com/1sufiyanahmad" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));">
+          <i class="fa-brands fa-github"></i>
+          <span>GitHub Profile</span>
+        </a>
+        <a href="../index.html#team" class="btn btn-outline">
+          <i class="fa-solid fa-users"></i>
+          <span>View Team</span>
+        </a>
+      </div>
+    </div>
+
+    <section>
+      <h2>API &amp; Data Pipeline Architecture</h2>
+      <p>Backend integrations, asynchronous pipelines, and database endpoints.</p>
+
+      <div class="showcase-grid">
+        <div class="showcase-card">
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-network-wired" style="color: var(--accent-purple);"></i> Dynamic JSON Pipelines</h3>
+          <p style="font-size: 0.95rem;">Decoupled JSON data feeding asynchronous frontend components with zero merge conflicts.</p>
+        </div>
+
+        <div class="showcase-card">
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-database" style="color: var(--accent-purple);"></i> Relational Modeling</h3>
+          <p style="font-size: 0.95rem;">Structured PostgreSQL schemas with indexed query performance and clean relational mapping.</p>
+        </div>
+
+        <div class="showcase-card">
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-shield-halved" style="color: var(--accent-purple);"></i> Auth &amp; Web Security</h3>
+          <p style="font-size: 0.95rem;">Role-based access controls, JWT authorization headers, and token refresh strategies.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

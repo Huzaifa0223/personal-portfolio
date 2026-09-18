@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rayan",
+    "name": "Muhammad Rayyan",
+    "role": "Frontend Architect",
+    "skills": ["React", "UI/UX", "Tailwind CSS", "Design Systems"],
+    "bio": "Building high-performance interactive interfaces, component architecture, and fluid web experiences.",
+    "github": "https://github.com/rayyandev7",
+    "page": "members/rayan.html",
+    "accentColor": "cyan"
+  },
+  {
+    "id": "sufiyan",
+    "name": "Sufiyan Ahmad",
+    "role": "Backend & Cloud Engineer",
+    "skills": ["Node.js", "Python", "PostgreSQL", "System Design"],
+    "bio": "Specializing in robust API pipelines, relational schema modeling, cloud deployment, and agentic workflows.",
+    "github": "https://github.com/1sufiyanahmad",
+    "page": "members/sufiyan.html",
+    "accentColor": "purple"
+  },
+  {
+    "id": "sanan",
+    "name": "Sanan Jan",
+    "role": "UI & Design System Apprentice",
+    "skills": ["HTML5", "CSS Styling", "Micro-Interactions", "Visual Testing"],
+    "bio": "Focusing on responsive design, modern typography, layout aesthetics, and seamless user interaction.",
+    "github": "https://github.com/sanan14356",
+    "page": "members/sanan.html",
+    "accentColor": "amber"
+  },
+  {
+    "id": "aimal",
+    "name": "Aimal Khan",
+    "role": "QA & Systems Verification Lead",
+    "skills": ["Manual & Automated QA", "Edge Case Testing", "System Auditing", "AI Prompting"],
+    "bio": "Dedicated to breaking systems, uncovering edge cases, verifying cross-browser layouts, and ensuring zero-defect releases.",
+    "github": "https://github.com/aimalkhankhattak2003",
+    "page": "members/aimal.html",
+    "accentColor": "rose"
+  }
+]
