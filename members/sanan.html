@@ -1,69 +1,507 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sanan Jan | UI &amp; Design Playground</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="../styles.css">
   <style>
-    .member-page { padding-top: 5rem; min-height: 100vh; }
-    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: var(--accent-amber); font-weight: 600; }
-    .member-hero { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 3rem; margin-bottom: 3rem; backdrop-filter: blur(16px); }
-    .member-badge { display: inline-block; padding: 0.35rem 0.85rem; border-radius: var(--border-radius-full); background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
-    .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-    .showcase-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; transition: transform 0.2s ease, border-color 0.2s ease; }
-    .showcase-card:hover { transform: translateY(-4px); border-color: var(--accent-amber); }
+    :root {
+      --sanan-ink: #121b2f;
+      --sanan-paper: #f7f3eb;
+      --sanan-coral: #f26b5e;
+      --sanan-lime: #c8e86b;
+      --sanan-blue: #7194ed;
+    }
+
+    .member-page {
+      padding-top: 4rem;
+      min-height: 100vh;
+      padding-bottom: 5rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--sanan-coral);
+      font-weight: 700;
+    }
+
+    .back-btn:hover {
+      color: var(--sanan-lime);
+    }
+
+    .member-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 3rem;
+      background: var(--sanan-paper);
+      color: var(--sanan-ink);
+      border: 0;
+      border-radius: 1.5rem;
+      padding: clamp(2rem, 5vw, 4rem);
+      margin-bottom: 4rem;
+      box-shadow: 12px 12px 0 var(--sanan-coral);
+    }
+
+    .member-hero::after {
+      content: '';
+      position: absolute;
+      width: 18rem;
+      height: 18rem;
+      right: -7rem;
+      top: -8rem;
+      border: 2rem solid var(--sanan-lime);
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    .member-hero h1,
+    .member-hero p {
+      color: var(--sanan-ink);
+    }
+
+    .member-hero h1 {
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      line-height: 0.9;
+      letter-spacing: -0.08em;
+      max-width: 7ch;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-copy h3 {
+      color: var(--sanan-coral);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-copy>p {
+      max-width: 32rem;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .member-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.25rem;
+      background: var(--sanan-ink);
+      color: var(--sanan-lime);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .hero-buttons .btn-primary {
+      background: var(--sanan-coral) !important;
+      color: #fff;
+      box-shadow: 4px 4px 0 var(--sanan-ink);
+    }
+
+    .hero-buttons .btn-outline {
+      color: var(--sanan-ink);
+      border-color: var(--sanan-ink);
+    }
+
+    .hero-buttons .btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--sanan-ink);
+    }
+
+    .hero-photo {
+      position: relative;
+      z-index: 1;
+      align-self: center;
+      width: min(100%, 22rem);
+      justify-self: center;
+      padding: 0.75rem;
+      background: var(--sanan-ink);
+      border-radius: 1rem;
+      transform: rotate(3deg);
+      box-shadow: 12px 12px 0 var(--sanan-blue);
+    }
+
+    .hero-photo::before {
+      content: '';
+      position: absolute;
+      width: 5rem;
+      height: 5rem;
+      top: -1.5rem;
+      right: -1.5rem;
+      border: 0.9rem solid var(--sanan-lime);
+      border-radius: 50%;
+      z-index: -1;
+    }
+
+    .hero-photo img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center 56%;
+      border-radius: 0.6rem;
+      filter: saturate(0.9) contrast(1.05);
+    }
+
+    .photo-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 0.25rem 0.1rem;
+      color: #fff;
+      font: 600 0.7rem var(--font-body);
+      letter-spacing: 0.04em;
+    }
+
+    .photo-caption span:last-child {
+      color: var(--sanan-lime);
+    }
+
+    .garden-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .garden-heading h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      max-width: 7ch;
+      line-height: 0.88;
+    }
+
+    .garden-heading p {
+      max-width: 25rem;
+    }
+
+    .garden-stage {
+      position: relative;
+      min-height: 33rem;
+      overflow: hidden;
+      background: var(--sanan-ink);
+      border-radius: 1.25rem;
+      padding: clamp(1.25rem, 4vw, 3rem);
+    }
+
+    .garden-stage::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.3;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+    }
+
+    .garden-orb {
+      position: absolute;
+      width: 20rem;
+      height: 20rem;
+      top: -8rem;
+      right: 8%;
+      border-radius: 50%;
+      background: var(--sanan-coral);
+      box-shadow: 0 0 0 2rem rgba(242, 107, 94, 0.12), 0 0 0 4rem rgba(242, 107, 94, 0.08);
+    }
+
+    .garden-window {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 38rem);
+      background: var(--sanan-paper);
+      color: var(--sanan-ink);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      box-shadow: 1.5rem 1.5rem 0 var(--sanan-blue);
+      transform: rotate(-2deg);
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(18, 27, 47, 0.15);
+      color: #697185;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .window-dots i {
+      width: 0.45rem;
+      height: 0.45rem;
+      display: block;
+      border-radius: 50%;
+      background: var(--sanan-coral);
+    }
+
+    .window-dots i:nth-child(2) {
+      background: var(--sanan-lime);
+    }
+
+    .window-dots i:nth-child(3) {
+      background: var(--sanan-blue);
+    }
+
+    .window-content {
+      display: grid;
+      grid-template-columns: 1fr 0.8fr;
+      gap: 1rem;
+      padding: 2rem 1rem 1rem;
+    }
+
+    .window-content h3 {
+      color: var(--sanan-ink);
+      font-size: clamp(2rem, 5vw, 3.75rem);
+      line-height: 0.9;
+      margin-bottom: 1rem;
+    }
+
+    .window-content p {
+      color: #596276;
+      font-size: 0.85rem;
+    }
+
+    .window-art {
+      position: relative;
+      min-height: 12rem;
+      border-radius: 0.5rem;
+      background: var(--sanan-lime);
+      overflow: hidden;
+    }
+
+    .window-art::before,
+    .window-art::after {
+      content: '';
+      position: absolute;
+      border: 1.5rem solid var(--sanan-blue);
+      border-radius: 50%;
+    }
+
+    .window-art::before {
+      width: 9rem;
+      height: 9rem;
+      right: -3rem;
+      top: -2rem;
+    }
+
+    .window-art::after {
+      width: 4rem;
+      height: 4rem;
+      left: 1rem;
+      bottom: 1rem;
+      border-color: var(--sanan-coral);
+    }
+
+    .garden-token {
+      position: absolute;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 0.35rem;
+      background: #fff;
+      color: var(--sanan-ink);
+      font-size: 0.75rem;
+      font-weight: 700;
+      box-shadow: 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.18);
+      animation: float-token 4s ease-in-out infinite;
+    }
+
+    .garden-token i {
+      color: var(--sanan-coral);
+    }
+
+    .token-one {
+      top: 20%;
+      right: 8%;
+    }
+
+    .token-two {
+      bottom: 18%;
+      right: 15%;
+      animation-delay: -1.5s;
+    }
+
+    .token-three {
+      bottom: 8%;
+      left: 8%;
+      animation-delay: -3s;
+    }
+
+    .process-rail {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .process-step {
+      padding-top: 1rem;
+      border-top: 2px solid var(--sanan-coral);
+    }
+
+    .process-step strong {
+      display: block;
+      color: var(--sanan-coral);
+      font-size: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .process-step span {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    @keyframes float-token {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(2deg);
+      }
+
+      50% {
+        transform: translateY(-0.6rem) rotate(-2deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .garden-token {
+        animation: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .member-hero {
+        grid-template-columns: 1fr;
+        box-shadow: 7px 7px 0 var(--sanan-coral);
+      }
+
+      .hero-photo {
+        width: min(100%, 19rem);
+      }
+
+      .garden-heading {
+        display: block;
+      }
+
+      .garden-heading p {
+        margin-top: 1rem;
+      }
+
+      .garden-window {
+        box-shadow: 0.75rem 0.75rem 0 var(--sanan-blue);
+      }
+
+      .window-content {
+        grid-template-columns: 1fr;
+      }
+
+      .window-art {
+        min-height: 8rem;
+      }
+
+      .process-rail {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+    }
+
+    .work-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 1.5rem; }
+    .work-heading h2 { font-size: clamp(2.5rem, 6vw, 5rem); max-width: 7ch; line-height: 0.88; }
+    .work-heading p { max-width: 25rem; }
+    .workboard { display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 1rem; }
+    .project-feature, .project-mini { position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); border-radius: 1rem; background: #0d1528; }
+    .project-feature { min-height: 30rem; padding: clamp(1.5rem, 4vw, 3rem); }
+    .project-feature::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(113,148,237,0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(113,148,237,0.13) 1px, transparent 1px); background-size: 2.5rem 2.5rem; }
+    .project-feature::after { content: ''; position: absolute; width: 22rem; height: 22rem; right: -5rem; bottom: -9rem; border: 3rem solid var(--sanan-coral); border-radius: 50%; box-shadow: 0 0 0 1.5rem rgba(242,107,94,0.12); }
+    .project-content { position: relative; z-index: 1; max-width: 23rem; }
+    .project-number { color: var(--sanan-lime); font: 700 0.75rem var(--font-body); letter-spacing: 0.12em; }
+    .project-feature h3 { margin: 4rem 0 1rem; color: #fff; font-size: clamp(2.25rem, 5vw, 4.5rem); line-height: 0.9; }
+    .project-feature p { color: #aab5cc; max-width: 20rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .project-tags span { padding: 0.4rem 0.65rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; color: #fff; font-size: 0.7rem; }
+    .project-meta { position: absolute; z-index: 1; right: 1.5rem; top: 1.5rem; color: #aab5cc; font-size: 0.7rem; text-align: right; }
+    .project-meta strong { display: block; color: var(--sanan-coral); font-size: 1rem; }
+    .project-stack { display: grid; gap: 1rem; }
+    .project-mini { min-height: 14.5rem; padding: 1.5rem; }
+    .project-mini:first-child { background: var(--sanan-lime); color: var(--sanan-ink); }
+    .project-mini:last-child { background: var(--sanan-blue); color: #fff; }
+    .project-mini h4 { margin: 2rem 0 0.5rem; font-size: 1.7rem; line-height: 0.95; }
+    .project-mini p { color: inherit; opacity: 0.72; font-size: 0.85rem; }
+    .project-mini i { float: right; font-size: 1.2rem; }
+    .work-footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.8rem; }
+    @media (max-width: 760px) { .work-heading { display: block; } .work-heading p { margin-top: 1rem; } .workboard { grid-template-columns: 1fr; } .project-feature { min-height: 27rem; } .project-stack { grid-template-columns: 1fr 1fr; } .project-mini { min-height: 13rem; padding: 1rem; } .project-mini h4 { font-size: 1.35rem; } .work-footer { display: block; } .work-footer span { display: block; margin-bottom: 0.4rem; } }
   </style>
 </head>
+
 <body>
   <div class="container member-page">
     <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Main Hub</a>
 
     <div class="member-hero">
-      <span class="member-badge"><i class="fa-solid fa-paintbrush"></i> UI &amp; Design Playground</span>
-      <h1 class="hero-title">Sanan Jan</h1>
-      <h3 style="color: var(--accent-amber); margin-bottom: 1rem;">UI &amp; Design System Apprentice</h3>
-      <p style="max-width: 650px; font-size: 1.1rem; margin-bottom: 1.5rem;">
-        Focusing on responsive design, visual balance, smooth micro-interactions, and creating aesthetic component interfaces.
-      </p>
-
-      <div class="hero-buttons">
-        <a href="https://github.com/sanan14356" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-amber), #ea580c);">
-          <i class="fa-brands fa-github"></i>
-          <span>GitHub Profile</span>
-        </a>
-        <a href="../index.html#team" class="btn btn-outline">
-          <i class="fa-solid fa-users"></i>
-          <span>View Team</span>
-        </a>
+      <div class="hero-copy">
+        <span class="member-badge"><i class="fa-solid fa-paintbrush"></i> UI &amp; Design Playground</span>
+        <h1>Sanan Jan</h1>
+        <h3>UI &amp; design system apprentice</h3>
+        <p>I turn loose ideas into responsive interfaces with a clear rhythm, expressive color, and just enough motion
+          to make a screen feel alive.</p>
+        <div class="hero-buttons">
+          <a href="https://github.com/sanan14356" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><i
+              class="fa-brands fa-github"></i><span>GitHub Profile</span></a>
+          <a href="../index.html#team" class="btn btn-outline"><i class="fa-solid fa-users"></i><span>View
+              Team</span></a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="../sanan.jpeg" alt="Portrait of Sanan Jan outdoors">
+        <div class="photo-caption"><span>portrait / sanan jan</span><span>01 — 01</span></div>
       </div>
     </div>
 
     <section>
-      <h2>Visual Design Lab &amp; Experiments</h2>
-      <p>Micro-interactions, button animations, and custom aesthetic components.</p>
-
-      <div class="showcase-grid">
-        <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-sparkles" style="color: var(--accent-amber);"></i> Micro-Interactions</h3>
-          <p style="font-size: 0.95rem;">Button ripple effects, magnetic cursor hovers, and dynamic focus state rings.</p>
-        </div>
-
-        <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-icons" style="color: var(--accent-amber);"></i> Custom Iconography</h3>
-          <p style="font-size: 0.95rem;">FontAwesome and SVG icon alignments with clean responsive badge tags.</p>
-        </div>
-
-        <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-swatchbook" style="color: var(--accent-amber);"></i> Color Palette Engine</h3>
-          <p style="font-size: 0.95rem;">High-contrast accessibility checks and harmonious theme accent variables.</p>
-        </div>
+      <div class="work-heading"><div><span class="member-badge">01 / selected work</span><h2>Built to be felt.</h2></div><p>A small archive of interface experiments where structure, atmosphere, and useful details meet.</p></div>
+      <div class="workboard">
+        <article class="project-feature"><div class="project-content"><span class="project-number">FEATURED / 001</span><h3>Nightshift<br>Dashboard</h3><p>A calmer command center for people who need to see the signal through the noise.</p><div class="project-tags"><span>UI system</span><span>Prototyping</span><span>Motion</span></div></div><div class="project-meta"><strong>2024</strong>concept study</div></article>
+        <div class="project-stack"><article class="project-mini"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="project-number" style="color: var(--sanan-ink);">002 / MOBILE</span><h4>Field Notes</h4><p>Small screens, generous thinking.</p></article><article class="project-mini"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="project-number" style="color: #fff;">003 / BRAND</span><h4>Signal / Noise</h4><p>A visual language for better focus.</p></article></div>
       </div>
+      <div class="work-footer"><span><i class="fa-solid fa-circle" style="color: var(--sanan-lime);"></i> Available for creative collaboration</span><span>More experiments in progress <i class="fa-solid fa-arrow-right"></i></span></div>
     </section>
   </div>
 </body>
+
 </html>
