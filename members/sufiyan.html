@@ -1,69 +1,1139 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sufiyan Ahmad | Backend &amp; Cloud Lab</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="../styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sufiyan Ahmad Ghani | Full-Stack & Mobile Developer</title>
+  <meta name="description" content="Sufiyan Ahmad Ghani — Software Engineering student building full-stack web and mobile apps with Flutter, .NET, React, and Django. Open to internships." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
   <style>
-    .member-page { padding-top: 5rem; min-height: 100vh; }
-    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: var(--accent-purple); font-weight: 600; }
-    .member-hero { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 3rem; margin-bottom: 3rem; backdrop-filter: blur(16px); }
-    .member-badge { display: inline-block; padding: 0.35rem 0.85rem; border-radius: var(--border-radius-full); background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
-    .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-    .showcase-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; transition: transform 0.2s ease, border-color 0.2s ease; }
-    .showcase-card:hover { transform: translateY(-4px); border-color: var(--accent-purple); }
+    /* ── DESIGN TOKENS ──────────────────────────────────────── */
+    :root {
+      --bg:          #f0f6ff;
+      --surface:     #ffffff;
+      --primary:     #1a4a8a;
+      --primary-lt:  #2563c0;
+      --accent:      #0ea5e9;
+      --accent-lt:   #e0f2fe;
+      --text:        #1e293b;
+      --muted:       #64748b;
+      --border:      #dde6f0;
+      --green:       #16a34a;
+      --r-sm: 8px; --r-md: 14px; --r-lg: 22px; --r-full: 999px;
+      --sh-sm: 0 2px 8px rgba(26,74,138,.07);
+      --sh-md: 0 6px 24px rgba(26,74,138,.12);
+      --sh-lg: 0 16px 48px rgba(26,74,138,.15);
+      --ease: 0.25s ease;
+      --fh: 'Poppins', sans-serif;
+      --fb: 'Inter', sans-serif;
+      --nav-h: 72px;
+    }
+
+    /* ── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--fb); background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ── TOOLTIP (cursor popup on hover) ────────────────────── */
+    [data-tip] { position: relative; }
+    [data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.85);
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--fb);
+      font-size: 0.72rem;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: var(--r-sm);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 9999;
+    }
+    [data-tip]::before {
+      content: '';
+      position: absolute;
+      bottom: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.85);
+      border: 5px solid transparent;
+      border-top-color: var(--primary);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 9999;
+    }
+    [data-tip]:hover::after,
+    [data-tip]:hover::before {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* ── UTILS ──────────────────────────────────────────────── */
+    .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section    { padding: 88px 0; }
+    .section-alt { background: var(--surface); }
+    .text-center { text-align: center; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-lt); color: var(--primary);
+      font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; padding: 6px 16px;
+      border-radius: var(--r-full); margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--fh); font-size: clamp(1.8rem,4vw,2.6rem);
+      font-weight: 700; color: var(--primary); line-height: 1.25; margin-bottom: 12px;
+    }
+    .section-bar {
+      width: 52px; height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: var(--r-full); margin: 0 auto 20px;
+    }
+    .section-sub { font-size: 1.05rem; color: var(--muted); max-width: 600px; margin: 0 auto; }
+
+    /* ── BUTTONS ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--fb); font-size: .95rem; font-weight: 600;
+      padding: 13px 28px; border-radius: var(--r-full);
+      cursor: pointer; border: 2px solid transparent;
+      transition: all var(--ease); white-space: nowrap;
+    }
+    .btn-primary  { background: var(--primary); color:#fff; border-color:var(--primary); }
+    .btn-primary:hover  { background:var(--primary-lt); border-color:var(--primary-lt); transform:translateY(-2px); box-shadow:var(--sh-md); }
+    .btn-outline  { background:transparent; color:var(--primary); border-color:var(--primary); }
+    .btn-outline:hover  { background:var(--primary); color:#fff; transform:translateY(-2px); }
+    .btn-white    { background:#fff; color:var(--primary); border-color:#fff; }
+    .btn-white:hover    { background:var(--accent-lt); border-color:var(--accent-lt); transform:translateY(-2px); }
+    .btn-ghost    { background:transparent; color:#fff; border:2px solid rgba(255,255,255,.5); }
+    .btn-ghost:hover    { background:rgba(255,255,255,.12); border-color:#fff; }
+
+    /* ── TOP BANNER ─────────────────────────────────────────── */
+    .top-banner {
+      background: var(--primary); color: #fff;
+      text-align: center; padding: 10px 24px;
+      font-size: .85rem; font-weight: 500;
+    }
+    .top-banner a { color: var(--accent); font-weight: 600; margin-left: 8px; text-decoration: underline; }
+
+    /* ── STICKY NAVBAR ──────────────────────────────────────── */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      height: var(--nav-h);
+      transition: box-shadow var(--ease);
+    }
+    .navbar.scrolled { box-shadow: var(--sh-md); }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; height:var(--nav-h); }
+    .nav-logo {
+      display:flex; align-items:center; gap:10px;
+      font-family:var(--fh); font-size:1.25rem; font-weight:700; color:var(--primary);
+    }
+    .nav-logo-icon {
+      width:38px; height:38px; background:var(--primary); border-radius:var(--r-sm);
+      display:flex; align-items:center; justify-content:center; color:#fff; font-size:1rem;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a {
+      font-size:.9rem; font-weight:500; color:var(--text);
+      padding:7px 14px; border-radius:var(--r-sm); transition:all var(--ease);
+    }
+    .nav-links a:hover, .nav-links a.active { background:var(--accent-lt); color:var(--primary); }
+    .nav-cta  { margin-left:12px; }
+    .nav-toggle {
+      display:none; background:none; border:none;
+      cursor:pointer; font-size:1.4rem; color:var(--primary); padding:6px;
+    }
+    .nav-mobile {
+      display:none; flex-direction:column; gap:4px;
+      background:#fff; border-top:1px solid var(--border);
+      padding:16px 24px 20px; box-shadow:var(--sh-md);
+    }
+    .nav-mobile.open { display:flex; }
+    .nav-mobile a {
+      font-size:1rem; font-weight:500; color:var(--text);
+      padding:10px 14px; border-radius:var(--r-sm); transition:background var(--ease);
+    }
+    .nav-mobile a:hover { background:var(--accent-lt); color:var(--primary); }
+
+    /* ── HERO ───────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(145deg,#e8f4ff 0%,#f0f6ff 50%,#e8eeff 100%);
+      padding: 90px 0 80px; position:relative; overflow:hidden;
+    }
+    .hero::before, .hero::after {
+      content:''; position:absolute; border-radius:50%; opacity:.1;
+    }
+    .hero::before { width:500px;height:500px; background:var(--primary); top:-160px;right:-120px; }
+    .hero::after  { width:300px;height:300px; background:var(--accent);  bottom:-80px;left:-60px; }
+    .hero-inner {
+      position:relative; z-index:1;
+      display:flex; align-items:center; gap:60px;
+    }
+    .hero-left { flex:1; }
+    .hero-right { flex-shrink:0; display:flex; justify-content:center; }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:#fff; border:1.5px solid var(--border);
+      border-radius:var(--r-full); padding:7px 16px;
+      font-size:.82rem; font-weight:600; color:var(--muted);
+      margin-bottom:24px; box-shadow:var(--sh-sm);
+    }
+    .hero-badge .dot {
+      width:9px;height:9px; background:var(--green); border-radius:50%;
+      animation: pulse-dot 1.8s infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100%{ box-shadow:0 0 0 0 rgba(22,163,74,.4); }
+      50%    { box-shadow:0 0 0 6px rgba(22,163,74,0); }
+    }
+    .hero-name {
+      font-family:var(--fh); font-size:clamp(2.2rem,5vw,3.4rem);
+      font-weight:800; color:var(--primary); line-height:1.15; margin-bottom:10px;
+    }
+    .hero-name .accent { color:var(--accent); }
+    .hero-role { font-size:1.2rem; font-weight:600; color:var(--primary-lt); margin-bottom:18px; }
+    .hero-desc { font-size:1.02rem; color:var(--muted); max-width:520px; margin-bottom:32px; line-height:1.8; }
+    .hero-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:36px; }
+    .hero-socials { display:flex; align-items:center; gap:12px; }
+    .hero-socials p { font-size:.85rem; color:var(--muted); font-weight:500; }
+    .social-icon {
+      width:40px;height:40px; border-radius:50%;
+      border:1.5px solid var(--border); background:#fff;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--primary); font-size:1rem;
+      transition:all var(--ease); box-shadow:var(--sh-sm);
+    }
+    .social-icon:hover { background:var(--primary); color:#fff; border-color:var(--primary); transform:translateY(-3px); }
+    .hero-avatar {
+      width:240px;height:240px; border-radius:50%;
+      background:linear-gradient(135deg,var(--primary),var(--accent));
+      display:flex; align-items:center; justify-content:center;
+      font-size:5rem; color:#fff;
+      box-shadow:var(--sh-lg); border:6px solid #fff;
+    }
+
+    /* ── STATS BAR ──────────────────────────────────────────── */
+    .stats { background:var(--primary); padding:36px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); }
+    .stat-item { text-align:center; padding:8px 0; border-right:1px solid rgba(255,255,255,.15); }
+    .stat-item:last-child { border-right:none; }
+    .stat-number { font-family:var(--fh); font-size:2rem; font-weight:800; color:#fff; line-height:1; }
+    .stat-label  { font-size:.82rem; color:rgba(255,255,255,.65); margin-top:6px; font-weight:500; }
+
+    /* ── ABOUT ──────────────────────────────────────────────── */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+    .about-text p { font-size:1.02rem; color:var(--muted); margin-bottom:16px; line-height:1.85; }
+    .about-text p:last-of-type { margin-bottom:28px; }
+    .tags-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .tag {
+      display:inline-flex; align-items:center; gap:6px;
+      background:var(--accent-lt); color:var(--primary);
+      font-size:.82rem; font-weight:600;
+      padding:5px 14px; border-radius:var(--r-full);
+      border:1px solid rgba(14,165,233,.25);
+      cursor:default;
+    }
+    .about-card {
+      background:var(--surface); border-radius:var(--r-lg);
+      padding:36px; box-shadow:var(--sh-md); border:1px solid var(--border);
+    }
+    .about-card-title { font-family:var(--fh); font-size:1.1rem; font-weight:700; color:var(--primary); margin-bottom:20px; }
+    .info-row { display:flex; align-items:flex-start; gap:14px; padding:14px 0; border-bottom:1px solid var(--border); }
+    .info-row:last-child { border-bottom:none; }
+    .info-icon {
+      width:36px;height:36px; background:var(--accent-lt); border-radius:var(--r-sm);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--primary); font-size:.9rem; flex-shrink:0;
+    }
+    .info-label { font-size:.78rem; color:var(--muted); font-weight:500; text-transform:uppercase; letter-spacing:.05em; }
+    .info-value { font-size:.95rem; font-weight:600; color:var(--text); margin-top:2px; }
+    .info-value a { color:var(--primary-lt); }
+    .info-value a:hover { text-decoration:underline; }
+
+    /* ── HOW I WORK ─────────────────────────────────────────── */
+    .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin:48px 0 40px; }
+    .step-card {
+      background:var(--surface); border-radius:var(--r-md);
+      padding:36px 28px; text-align:center;
+      border:1px solid var(--border); box-shadow:var(--sh-sm);
+      transition:all var(--ease);
+    }
+    .step-card:hover { transform:translateY(-6px); box-shadow:var(--sh-lg); border-color:var(--accent); }
+    .step-icon-wrap {
+      width:72px;height:72px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.6rem; color:#fff; margin:0 auto 20px;
+    }
+    .si-blue   { background:var(--primary); }
+    .si-orange { background:#f97316; }
+    .si-teal   { background:#0891b2; }
+    .step-card-title { font-family:var(--fh); font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:10px; }
+    .step-card-desc  { font-size:.93rem; color:var(--muted); line-height:1.7; }
+
+    /* ── SKILLS ─────────────────────────────────────────────── */
+    .skills-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:48px; }
+    .skill-card {
+      background:var(--surface); border-radius:var(--r-md);
+      padding:30px; border:1px solid var(--border); box-shadow:var(--sh-sm);
+      transition:all var(--ease);
+    }
+    .skill-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); border-color:var(--accent); }
+    .skill-card-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+    .skill-card-icon {
+      width:46px;height:46px; border-radius:var(--r-sm);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.15rem; color:#fff; flex-shrink:0;
+    }
+    .sc-purple { background:#7c3aed; }
+    .sc-amber  { background:#d97706; }
+    .sc-sky    { background:#0284c7; }
+    .sc-green  { background:#15803d; }
+    .sc-rose   { background:#be123c; }
+    .skill-card-title { font-family:var(--fh); font-size:1rem; font-weight:700; color:var(--primary); }
+    .skill-card-sub   { font-size:.8rem; color:var(--muted); margin-top:2px; }
+    .pill-row { display:flex; flex-wrap:wrap; gap:8px; }
+    .pill {
+      display:inline-flex; align-items:center; gap:5px;
+      background:var(--bg); color:var(--text);
+      font-size:.82rem; font-weight:500;
+      padding:5px 12px; border-radius:var(--r-full);
+      border:1px solid var(--border); transition:all var(--ease);
+      cursor:default;
+    }
+    .pill:hover { background:var(--accent-lt); border-color:var(--accent); color:var(--primary); }
+
+    /* ── EXPERIENCE / PROJECTS SECTION ─────────────────────── */
+    .exp-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:28px; margin-top:48px; }
+
+    /* ── PROJECTS ───────────────────────────────────────────── */
+    .projects-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:28px; margin-top:48px; }
+    .project-card {
+      background:var(--surface); border-radius:var(--r-md);
+      overflow:hidden; border:1px solid var(--border); box-shadow:var(--sh-sm);
+      transition:all var(--ease); display:flex; flex-direction:column;
+    }
+    .project-card:hover { transform:translateY(-6px); box-shadow:var(--sh-lg); }
+    .project-banner {
+      height:160px; display:flex; align-items:center; justify-content:center;
+      font-size:3rem; color:rgba(255,255,255,.9);
+    }
+    .pb-1 { background:linear-gradient(135deg,#1a4a8a,#0ea5e9); }
+    .pb-2 { background:linear-gradient(135deg,#7c3aed,#0ea5e9); }
+    .pb-3 { background:linear-gradient(135deg,#d97706,#f97316); }
+    .project-content { padding:24px; flex:1; display:flex; flex-direction:column; }
+    .project-tech { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+    .tech-tag {
+      background:var(--accent-lt); color:var(--primary);
+      font-size:.75rem; font-weight:600;
+      padding:3px 10px; border-radius:var(--r-full);
+    }
+    .project-title { font-family:var(--fh); font-size:1.1rem; font-weight:700; color:var(--primary); margin-bottom:10px; }
+    .project-desc  { font-size:.92rem; color:var(--muted); line-height:1.75; flex:1; margin-bottom:20px; }
+    .project-links { display:flex; gap:10px; flex-wrap:wrap; }
+    .project-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:.85rem; font-weight:600; padding:9px 18px;
+      border-radius:var(--r-full); border:1.5px solid var(--primary);
+      color:var(--primary); transition:all var(--ease);
+    }
+    .project-btn:hover { background:var(--primary); color:#fff; }
+    .project-bullet { font-size:.88rem; color:var(--muted); margin-bottom:6px; padding-left:4px; }
+    .project-bullet::before { content:"→ "; color:var(--accent); font-weight:700; }
+
+    /* ── EXPERIENCE CARD ────────────────────────────────────── */
+    .exp-card {
+      background:var(--surface); border-radius:var(--r-md);
+      padding:28px; border:1px solid var(--border); box-shadow:var(--sh-sm);
+      transition:all var(--ease); display:flex; flex-direction:column; gap:14px;
+    }
+    .exp-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); border-color:var(--accent); }
+    .exp-card-header { display:flex; align-items:flex-start; gap:14px; }
+    .exp-icon {
+      width:46px;height:46px; border-radius:var(--r-sm); flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.2rem; color:#fff;
+    }
+    .exp-title { font-family:var(--fh); font-size:1rem; font-weight:700; color:var(--primary); }
+    .exp-company { font-size:.88rem; color:var(--muted); margin-top:2px; }
+    .exp-period {
+      display:inline-flex; align-items:center; gap:5px;
+      background:var(--accent-lt); color:var(--primary);
+      font-size:.75rem; font-weight:600;
+      padding:3px 12px; border-radius:var(--r-full); margin-top:6px;
+    }
+    .exp-bullets { display:flex; flex-direction:column; gap:8px; }
+    .exp-bullet { font-size:.9rem; color:var(--muted); line-height:1.6; }
+    .exp-bullet::before { content:"▸ "; color:var(--accent); font-weight:700; }
+
+    /* ── CTA SECTION ────────────────────────────────────────── */
+    .cta-section {
+      background:linear-gradient(135deg,var(--primary) 0%,#2563c0 100%);
+      padding:72px 0; text-align:center; color:#fff;
+    }
+    .cta-section h2 { font-family:var(--fh); font-size:clamp(1.7rem,3.5vw,2.4rem); font-weight:700; margin-bottom:14px; }
+    .cta-section p  { font-size:1.05rem; color:rgba(255,255,255,.75); max-width:520px; margin:0 auto 32px; line-height:1.75; }
+    .cta-buttons { display:flex; justify-content:center; flex-wrap:wrap; gap:14px; }
+
+    /* ── CONTACT INFO STRIP ─────────────────────────────────── */
+    .contact-strip {
+      display:flex; justify-content:center; flex-wrap:wrap; gap:20px;
+      margin-bottom:32px;
+    }
+    .contact-chip {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+      border-radius:var(--r-full); padding:8px 18px;
+      font-size:.88rem; color:#fff; font-weight:500;
+      transition:all var(--ease);
+    }
+    .contact-chip:hover { background:rgba(255,255,255,.22); }
+    .contact-chip i { color:var(--accent); }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    .footer { background:#0f1e35; color:rgba(255,255,255,.75); padding:52px 0 28px; }
+    .footer-top {
+      display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px;
+      padding-bottom:36px; border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .footer-brand-name { font-family:var(--fh); font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:12px; }
+    .footer-brand-desc { font-size:.9rem; line-height:1.75; color:rgba(255,255,255,.55); max-width:280px; margin-bottom:20px; }
+    .footer-socials { display:flex; gap:10px; }
+    .footer-social {
+      width:36px;height:36px; background:rgba(255,255,255,.08);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      color:rgba(255,255,255,.65); font-size:.9rem; transition:all var(--ease);
+    }
+    .footer-social:hover { background:var(--accent); color:#fff; }
+    .footer-col-title { font-family:var(--fh); font-size:.88rem; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:.08em; margin-bottom:16px; }
+    .footer-col ul { display:flex; flex-direction:column; gap:10px; }
+    .footer-col a { font-size:.9rem; color:rgba(255,255,255,.55); transition:color var(--ease); }
+    .footer-col a:hover { color:#fff; }
+    .footer-bottom { display:flex; align-items:center; justify-content:space-between; padding-top:24px; font-size:.85rem; }
+    .back-top { display:inline-flex; align-items:center; gap:6px; font-size:.85rem; color:rgba(255,255,255,.55); transition:color var(--ease); }
+    .back-top:hover { color:#fff; }
+
+    /* ── EDUCATION SECTION ──────────────────────────────────── */
+    .edu-card {
+      background:var(--surface); border-radius:var(--r-md);
+      padding:32px; border:1px solid var(--border); box-shadow:var(--sh-sm);
+      display:flex; gap:20px; align-items:flex-start;
+      transition:all var(--ease);
+    }
+    .edu-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); border-color:var(--accent); }
+    .edu-icon {
+      width:56px;height:56px; background:var(--primary); border-radius:var(--r-sm);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.4rem; color:#fff; flex-shrink:0;
+    }
+    .edu-degree { font-family:var(--fh); font-size:1.1rem; font-weight:700; color:var(--primary); margin-bottom:4px; }
+    .edu-school { font-size:.95rem; color:var(--text); font-weight:600; margin-bottom:6px; }
+    .edu-period { font-size:.82rem; color:var(--muted); margin-bottom:12px; }
+    .edu-courses { display:flex; flex-wrap:wrap; gap:7px; }
+    .edu-course {
+      background:var(--bg); border:1px solid var(--border);
+      color:var(--text); font-size:.78rem; font-weight:500;
+      padding:4px 12px; border-radius:var(--r-full);
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media(max-width:900px){
+      .hero-inner   { flex-direction:column; text-align:center; }
+      .hero-badge   { margin:0 auto 24px; }
+      .hero-desc    { margin-left:auto; margin-right:auto; }
+      .hero-buttons { justify-content:center; }
+      .hero-socials { justify-content:center; }
+      .hero-right   { order:-1; }
+      .hero-avatar  { width:180px;height:180px; font-size:4rem; }
+      .about-grid   { grid-template-columns:1fr; gap:36px; }
+      .steps-grid   { grid-template-columns:1fr; }
+      .skills-grid  { grid-template-columns:1fr; }
+      .projects-grid{ grid-template-columns:1fr; }
+      .exp-grid     { grid-template-columns:1fr; }
+      .stats-grid   { grid-template-columns:repeat(2,1fr); gap:20px; }
+      .stat-item    { border-right:none; }
+      .footer-top   { grid-template-columns:1fr; gap:28px; }
+      .footer-bottom{ flex-direction:column; gap:12px; text-align:center; }
+    }
+    @media(max-width:640px){
+      .section      { padding:60px 0; }
+      .nav-links    { display:none; }
+      .nav-cta      { display:none; }
+      .nav-toggle   { display:block; }
+      .hero         { padding:60px 0; }
+    }
   </style>
 </head>
+
 <body>
-  <div class="container member-page">
-    <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Main Hub</a>
 
-    <div class="member-hero">
-      <span class="member-badge"><i class="fa-solid fa-server"></i> Backend &amp; Cloud Systems Lab</span>
-      <h1 class="hero-title">Sufiyan Ahmad</h1>
-      <h3 style="color: var(--accent-purple); margin-bottom: 1rem;">Backend Engineer &amp; Cloud Architect</h3>
-      <p style="max-width: 650px; font-size: 1.1rem; margin-bottom: 1.5rem;">
-        Specializing in high-throughput API endpoints, asynchronous queue architectures, database schema design, and agentic workflows.
-      </p>
+  <!-- TOP BANNER -->
+  <div class="top-banner">
+    🎓 Software Engineering student — 7th Semester | Open to Internships
+    <a href="#contact">Get in touch →</a>
+  </div>
 
-      <div class="hero-buttons">
-        <a href="https://github.com/1sufiyanahmad" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));">
-          <i class="fa-brands fa-github"></i>
-          <span>GitHub Profile</span>
+  <!-- STICKY NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#home" class="nav-logo" data-tip="Back to top">
+          <div class="nav-logo-icon"><i class="fa-solid fa-code"></i></div>
+          Sufiyan<span>.dev</span>
         </a>
-        <a href="../index.html#team" class="btn btn-outline">
-          <i class="fa-solid fa-users"></i>
-          <span>View Team</span>
+        <div class="nav-links" id="nav-links">
+          <a href="#home"       class="active">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#education">Education</a>
+          <a href="#contact">Contact</a>
+          <a href="../index.html#team">← Team</a>
+        </div>
+        <a href="https://linkedin.com/in/sufiyan-ahmad-ghani"
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn-primary nav-cta"
+           data-tip="View LinkedIn Profile">
+          <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+      <a href="../index.html#team">← Team Portfolio</a>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            Open to Internships — 7th Semester
+          </div>
+          <h1 class="hero-name">
+            Hi, I'm<br />
+            <span class="accent">Sufiyan Ahmad Ghani</span>
+          </h1>
+          <p class="hero-role">Full-Stack &amp; Mobile Developer</p>
+          <p class="hero-desc">
+            Software Engineering student building full-stack web and mobile
+            applications with Flutter, .NET, React, and Django. I also manage
+            e-commerce operations for a UK client — covering logistics, supplier
+            negotiations, and financial reporting.
+          </p>
+          <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary" data-tip="See my work">
+              View Projects <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="#contact" class="btn btn-outline" data-tip="Reach out to me">
+              Get In Touch <i class="fa-solid fa-envelope"></i>
+            </a>
+          </div>
+          <div class="hero-socials">
+            <p>Find me on:</p>
+            <a href="https://linkedin.com/in/sufiyan-ahmad-ghani"
+               target="_blank" rel="noopener noreferrer"
+               class="social-icon" aria-label="LinkedIn"
+               data-tip="LinkedIn">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/1sufiyanahmad"
+               target="_blank" rel="noopener noreferrer"
+               class="social-icon" aria-label="GitHub"
+               data-tip="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="mailto:Sufiyan.ahmad.bsse-2023d@cecosian.edu.pk"
+               class="social-icon" aria-label="Email"
+               data-tip="Send Email">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="tel:+923140551796"
+               class="social-icon" aria-label="Phone"
+               data-tip="+92 314 055 1796">
+              <i class="fa-solid fa-phone"></i>
+            </a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-avatar" data-tip="Sufiyan Ahmad Ghani">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- STATS BAR -->
+  <div class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item" data-tip="B.S. Software Engineering — CECOS University">
+          <div class="stat-number">7th</div>
+          <div class="stat-label">Semester</div>
+        </div>
+        <div class="stat-item" data-tip="Flutter, .NET, React, Django &amp; more">
+          <div class="stat-number">4+</div>
+          <div class="stat-label">Frameworks</div>
+        </div>
+        <div class="stat-item" data-tip="Campus Utility App, OOP Calculator &amp; more">
+          <div class="stat-number">2+</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-item" data-tip="Wholesale FBA for UK client">
+          <div class="stat-number">1</div>
+          <div class="stat-label">Live Client</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:48px;">
+        <span class="section-label"><i class="fa-solid fa-user"></i> Who I Am</span>
+        <h2 class="section-title">About Me</h2>
+        <div class="section-bar"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm <strong style="color:var(--primary);">Sufiyan Ahmad Ghani</strong>, a
+            Software Engineering student in my 7th semester at CECOS University,
+            Peshawar. I build full-stack web and mobile applications using Flutter,
+            .NET, React, and Django — and I'm always working to improve my skills
+            with real-world projects.
+          </p>
+          <p>
+            Alongside my studies, I run e-commerce wholesale operations for a UK
+            client on Amazon FBA — handling product sourcing, international
+            logistics, supplier negotiations, and financial P&amp;L reporting.
+          </p>
+          <p>
+            I'm looking for an internship where I can contribute to real products
+            with a team and grow as a developer.
+          </p>
+          <p style="color:var(--muted); font-size:.9rem;">Currently working with →</p>
+          <div class="tags-row">
+            <span class="tag" data-tip="Cross-platform mobile development"><i class="fa-brands fa-flutter" style="color:#54c5f8;"></i> Flutter</span>
+            <span class="tag" data-tip="Microsoft .NET framework"><i class="fa-solid fa-window-maximize"></i> .NET</span>
+            <span class="tag" data-tip="Frontend JavaScript library"><i class="fa-brands fa-react" style="color:#61dafb;"></i> React</span>
+            <span class="tag" data-tip="Python web framework"><i class="fa-brands fa-python" style="color:#3776ab;"></i> Django</span>
+            <span class="tag" data-tip="Cloud infrastructure"><i class="fa-brands fa-aws" style="color:#ff9900;"></i> AWS</span>
+            <span class="tag" data-tip="Relational database"><i class="fa-solid fa-database"></i> PostgreSQL</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <p class="about-card-title">Quick Info</p>
+          <div class="info-row">
+            <div class="info-icon" data-tip="Full name"><i class="fa-solid fa-user"></i></div>
+            <div>
+              <p class="info-label">Full Name</p>
+              <p class="info-value">Sufiyan Ahmad Ghani</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" data-tip="Peshawar, Pakistan"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+              <p class="info-label">Location</p>
+              <p class="info-value">Peshawar, Pakistan</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" data-tip="CECOS University"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div>
+              <p class="info-label">University</p>
+              <p class="info-value">CECOS University, Peshawar</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" data-tip="Expected graduation 2027"><i class="fa-solid fa-calendar"></i></div>
+            <div>
+              <p class="info-label">Degree</p>
+              <p class="info-value">B.S. Software Engineering (Expected 2027)</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" data-tip="Call or WhatsApp"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <p class="info-label">Phone</p>
+              <p class="info-value"><a href="tel:+923140551796">+92 314 055 1796</a></p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" data-tip="Send an email"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <p class="info-label">Email</p>
+              <p class="info-value">
+                <a href="mailto:Sufiyan.ahmad.bsse-2023d@cecosian.edu.pk">
+                  Sufiyan.ahmad.bsse&#8209;2023d@cecosian.edu.pk
+                </a>
+              </p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" data-tip="Open to internships"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <p class="info-label">Status</p>
+              <p class="info-value" style="color:var(--green);font-weight:700;">● Open to Internships</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- HOW I WORK -->
+  <section class="section section-alt">
+    <div class="container text-center">
+      <span class="section-label"><i class="fa-solid fa-gears"></i> My Workflow</span>
+      <h2 class="section-title">How I Work</h2>
+      <div class="section-bar"></div>
+      <p class="section-sub">Clean, methodical, and always learning. Here's how I approach every project.</p>
+      <div class="steps-grid">
+        <div class="step-card" data-tip="First step in every project">
+          <div class="step-icon-wrap si-blue"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+          <h3 class="step-card-title">Plan &amp; Research</h3>
+          <p class="step-card-desc">I start by understanding the problem, sketching the data model, and deciding the right stack before writing a single line of code.</p>
+        </div>
+        <div class="step-card" data-tip="Where the real work happens">
+          <div class="step-icon-wrap si-orange"><i class="fa-solid fa-code"></i></div>
+          <h3 class="step-card-title">Build &amp; Test</h3>
+          <p class="step-card-desc">I write clean, readable code using AI tools like Claude to prototype fast, then debug carefully and test every feature end-to-end.</p>
+        </div>
+        <div class="step-card" data-tip="Ship it and keep improving">
+          <div class="step-icon-wrap si-teal"><i class="fa-solid fa-rocket"></i></div>
+          <h3 class="step-card-title">Ship &amp; Improve</h3>
+          <p class="step-card-desc">I push to GitHub, write a clear README, and keep iterating — every project adds a new lesson to my developer toolkit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label"><i class="fa-solid fa-layer-group"></i> What I Know</span>
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="section-bar"></div>
+        <p class="section-sub">Languages, frameworks, databases, and tools from my CV — every item is something I've actually used.</p>
+      </div>
+      <div class="skills-grid">
+
+        <!-- Languages -->
+        <div class="skill-card">
+          <div class="skill-card-header">
+            <div class="skill-card-icon sc-purple" data-tip="Programming languages I know"><i class="fa-solid fa-terminal"></i></div>
+            <div>
+              <p class="skill-card-title">Languages</p>
+              <p class="skill-card-sub">Core programming languages</p>
+            </div>
+          </div>
+          <div class="pill-row">
+            <span class="pill" data-tip="Used in Django, scripting"><i class="fa-brands fa-python"></i> Python</span>
+            <span class="pill" data-tip="OOP Calculator project"><i class="fa-solid fa-coffee"></i> Java</span>
+            <span class="pill" data-tip="OOP projects"><i class="fa-solid fa-code"></i> C++</span>
+            <span class="pill" data-tip="Flutter mobile apps"><i class="fa-solid fa-mobile-screen"></i> Dart</span>
+            <span class="pill" data-tip=".NET applications"><i class="fa-solid fa-hashtag"></i> C#</span>
+            <span class="pill" data-tip="React frontend"><i class="fa-brands fa-js"></i> JavaScript</span>
+          </div>
+        </div>
+
+        <!-- Frameworks -->
+        <div class="skill-card">
+          <div class="skill-card-header">
+            <div class="skill-card-icon sc-sky" data-tip="Frameworks and libraries I use"><i class="fa-solid fa-cubes"></i></div>
+            <div>
+              <p class="skill-card-title">Frameworks &amp; Libraries</p>
+              <p class="skill-card-sub">Building real applications</p>
+            </div>
+          </div>
+          <div class="pill-row">
+            <span class="pill" data-tip="Cross-platform mobile dev"><i class="fa-brands fa-flutter" style="color:#54c5f8;"></i> Flutter</span>
+            <span class="pill" data-tip="Microsoft ecosystem"><i class="fa-solid fa-window-maximize"></i> .NET</span>
+            <span class="pill" data-tip="Frontend SPA framework"><i class="fa-brands fa-react" style="color:#61dafb;"></i> React</span>
+            <span class="pill" data-tip="Python web framework"><i class="fa-brands fa-python"></i> Django</span>
+          </div>
+        </div>
+
+        <!-- Databases & Cloud -->
+        <div class="skill-card">
+          <div class="skill-card-header">
+            <div class="skill-card-icon sc-amber" data-tip="Databases and cloud platforms"><i class="fa-solid fa-database"></i></div>
+            <div>
+              <p class="skill-card-title">Databases &amp; Cloud</p>
+              <p class="skill-card-sub">Storing data and deploying apps</p>
+            </div>
+          </div>
+          <div class="pill-row">
+            <span class="pill" data-tip="Relational database management"><i class="fa-solid fa-database"></i> PostgreSQL</span>
+            <span class="pill" data-tip="Amazon Web Services"><i class="fa-brands fa-aws" style="color:#ff9900;"></i> AWS</span>
+          </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="skill-card">
+          <div class="skill-card-header">
+            <div class="skill-card-icon sc-green" data-tip="Development tools I use daily"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <div>
+              <p class="skill-card-title">Tools &amp; Workflow</p>
+              <p class="skill-card-sub">My everyday developer toolkit</p>
+            </div>
+          </div>
+          <div class="pill-row">
+            <span class="pill" data-tip="Android &amp; Flutter development"><i class="fa-brands fa-android"></i> Android Studio</span>
+            <span class="pill" data-tip="AI-assisted development &amp; prototyping"><i class="fa-solid fa-robot"></i> Claude AI</span>
+            <span class="pill" data-tip="Other LLM tools"><i class="fa-solid fa-brain"></i> LLM Tooling</span>
+            <span class="pill" data-tip="Version control"><i class="fa-brands fa-git-alt"></i> Git &amp; GitHub</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROFESSIONAL EXPERIENCE -->
+  <section class="section section-alt" id="experience">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label"><i class="fa-solid fa-briefcase"></i> Work History</span>
+        <h2 class="section-title">Professional Experience</h2>
+        <div class="section-bar"></div>
+        <p class="section-sub">Real-world work running alongside my university studies.</p>
+      </div>
+      <div class="exp-grid" style="margin-top:48px;">
+        <div class="exp-card">
+          <div class="exp-card-header">
+            <div class="exp-icon sc-rose" data-tip="Amazon FBA Wholesale work">
+              <i class="fa-brands fa-amazon"></i>
+            </div>
+            <div>
+              <p class="exp-title">Amazon Wholesale FBA Specialist</p>
+              <p class="exp-company">Freelance — UK Client Account</p>
+              <span class="exp-period"><i class="fa-solid fa-calendar-days"></i> Ongoing (Freelance)</span>
+            </div>
+          </div>
+          <div class="exp-bullets">
+            <p class="exp-bullet">Ran wholesale operations for a UK e-commerce client — product sourcing, supplier negotiation, and purchasing decisions.</p>
+            <p class="exp-bullet">Processed purchase orders and arranged compliant international shipments to Amazon FBA warehouses.</p>
+            <p class="exp-bullet">Prepared Profit &amp; Loss reports to keep account finances accurate and guide decisions about scaling.</p>
+          </div>
+        </div>
+
+        <!-- Placeholder for future experience -->
+        <div class="exp-card" style="border-style:dashed; opacity:0.7;">
+          <div class="exp-card-header">
+            <div class="exp-icon sc-sky" data-tip="Your next role — looking for internships">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div>
+              <p class="exp-title">Software Engineering Intern</p>
+              <p class="exp-company">Looking for an opportunity</p>
+              <span class="exp-period"><i class="fa-solid fa-hourglass-half"></i> Actively Seeking</span>
+            </div>
+          </div>
+          <div class="exp-bullets">
+            <p class="exp-bullet">Open to full-stack web, mobile, or backend internships with a real product team.</p>
+            <p class="exp-bullet">Comfortable working with Flutter, .NET, React, Django, or picking up new tech quickly.</p>
+            <p class="exp-bullet">Ready to contribute, learn, and ship features from day one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label"><i class="fa-solid fa-folder-open"></i> What I've Built</span>
+        <h2 class="section-title">Technical Projects</h2>
+        <div class="section-bar"></div>
+        <p class="section-sub">Hands-on projects from my CV — built during events, coursework, and self-study.</p>
+      </div>
+      <div class="projects-grid">
+
+        <!-- Project 1: Campus Utility App -->
+        <div class="project-card">
+          <div class="project-banner pb-1">
+            <i class="fa-solid fa-building-columns" data-tip="Campus utility web app"></i>
+          </div>
+          <div class="project-content">
+            <div class="project-tech">
+              <span class="tech-tag" data-tip="Web technologies">Web Stack</span>
+              <span class="tech-tag" data-tip="AI used for rapid prototyping">AI Tooling</span>
+              <span class="tech-tag" data-tip="Built at a live coding event">Hackathon</span>
+            </div>
+            <h3 class="project-title">Campus Utility Web Application</h3>
+            <p class="project-desc">
+              Built at a Dev Tech coding event to help students find campus resources
+              and manage their daily tasks. Used AI tools (Claude) to prototype and
+              debug quickly within the event's tight time limit.
+            </p>
+            <p class="project-bullet">Delivered a working app within the event's time constraint</p>
+            <p class="project-bullet">Used AI-assisted development to speed up prototyping and debugging</p>
+            <div class="project-links">
+              <a href="https://github.com/1sufiyanahmad"
+                 target="_blank" rel="noopener noreferrer"
+                 class="project-btn" data-tip="View source code on GitHub">
+                <i class="fa-brands fa-github"></i> View Code
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: OOP Calculator -->
+        <div class="project-card">
+          <div class="project-banner pb-2">
+            <i class="fa-solid fa-calculator" data-tip="OOP Calculator project"></i>
+          </div>
+          <div class="project-content">
+            <div class="project-tech">
+              <span class="tech-tag" data-tip="Primary language used">Java</span>
+              <span class="tech-tag" data-tip="Also implemented in C++">C++</span>
+              <span class="tech-tag" data-tip="Core OOP concepts applied">OOP</span>
+            </div>
+            <h3 class="project-title">Object-Oriented Calculator Application</h3>
+            <p class="project-desc">
+              A calculator built using core OOP concepts — encapsulation and method
+              overloading — with logic split cleanly into separate classes.
+              Handles all standard arithmetic and edge cases like division by zero.
+            </p>
+            <p class="project-bullet">Applied encapsulation and method overloading in practice</p>
+            <p class="project-bullet">Handled edge cases including division by zero gracefully</p>
+            <div class="project-links">
+              <a href="https://github.com/1sufiyanahmad"
+                 target="_blank" rel="noopener noreferrer"
+                 class="project-btn" data-tip="View source code on GitHub">
+                <i class="fa-brands fa-github"></i> View Code
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- EDUCATION -->
+  <section class="section section-alt" id="education">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label"><i class="fa-solid fa-graduation-cap"></i> Academic Background</span>
+        <h2 class="section-title">Education</h2>
+        <div class="section-bar"></div>
+      </div>
+      <div style="max-width:760px; margin:48px auto 0;">
+        <div class="edu-card">
+          <div class="edu-icon" data-tip="CECOS University Peshawar">
+            <i class="fa-solid fa-university"></i>
+          </div>
+          <div>
+            <p class="edu-degree">B.S. Software Engineering</p>
+            <p class="edu-school">CECOS University of IT and Emerging Sciences</p>
+            <p class="edu-period"><i class="fa-solid fa-location-dot"></i> Peshawar, Pakistan &nbsp;|&nbsp; <i class="fa-solid fa-calendar"></i> Expected 2027 &nbsp;|&nbsp; <i class="fa-solid fa-book-open"></i> 7th Semester</p>
+            <div class="edu-courses">
+              <span class="edu-course" data-tip="Arrays, linked lists, trees, graphs">Data Structures</span>
+              <span class="edu-course" data-tip="Classes, inheritance, polymorphism">Object-Oriented Programming</span>
+              <span class="edu-course" data-tip="SQL, schema design, normalization">Database Systems</span>
+              <span class="edu-course" data-tip="HTML, CSS, JS, backend frameworks">Web Engineering</span>
+              <span class="edu-course" data-tip="Processes, memory, file systems">Operating Systems</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CONTACT / CTA -->
+  <section class="cta-section" id="contact">
+    <div class="container">
+      <h2>Let's Work Together</h2>
+      <p>
+        I'm actively looking for a software engineering internship where I can
+        work on real products with a real team. Reach out on any channel below.
+      </p>
+      <div class="contact-strip">
+        <a href="mailto:Sufiyan.ahmad.bsse-2023d@cecosian.edu.pk"
+           class="contact-chip" data-tip="Send me an email">
+          <i class="fa-solid fa-envelope"></i>
+          Sufiyan.ahmad.bsse-2023d@cecosian.edu.pk
+        </a>
+        <a href="tel:+923140551796"
+           class="contact-chip" data-tip="Call or WhatsApp">
+          <i class="fa-solid fa-phone"></i>
+          +92 314 055 1796
+        </a>
+        <a href="https://linkedin.com/in/sufiyan-ahmad-ghani"
+           target="_blank" rel="noopener noreferrer"
+           class="contact-chip" data-tip="Connect on LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i>
+          linkedin.com/in/sufiyan-ahmad-ghani
+        </a>
+      </div>
+      <div class="cta-buttons">
+        <a href="https://linkedin.com/in/sufiyan-ahmad-ghani"
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn-white" data-tip="View LinkedIn profile">
+          <i class="fa-brands fa-linkedin-in"></i> LinkedIn Profile
+        </a>
+        <a href="https://github.com/1sufiyanahmad"
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn-ghost" data-tip="View GitHub profile">
+          <i class="fa-brands fa-github"></i> GitHub Profile
         </a>
       </div>
     </div>
+  </section>
 
-    <section>
-      <h2>API &amp; Data Pipeline Architecture</h2>
-      <p>Backend integrations, asynchronous pipelines, and database endpoints.</p>
 
-      <div class="showcase-grid">
-        <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-network-wired" style="color: var(--accent-purple);"></i> Dynamic JSON Pipelines</h3>
-          <p style="font-size: 0.95rem;">Decoupled JSON data feeding asynchronous frontend components with zero merge conflicts.</p>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <p class="footer-brand-name">Sufiyan Ahmad Ghani</p>
+          <p class="footer-brand-desc">
+            Full-Stack &amp; Mobile Developer. Software Engineering student at
+            CECOS University, Peshawar. Building real apps, learning every day.
+          </p>
+          <div class="footer-socials">
+            <a href="https://linkedin.com/in/sufiyan-ahmad-ghani"
+               target="_blank" rel="noopener noreferrer"
+               class="footer-social" aria-label="LinkedIn" data-tip="LinkedIn">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/1sufiyanahmad"
+               target="_blank" rel="noopener noreferrer"
+               class="footer-social" aria-label="GitHub" data-tip="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="mailto:Sufiyan.ahmad.bsse-2023d@cecosian.edu.pk"
+               class="footer-social" aria-label="Email" data-tip="Email me">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+          </div>
         </div>
-
-        <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-database" style="color: var(--accent-purple);"></i> Relational Modeling</h3>
-          <p style="font-size: 0.95rem;">Structured PostgreSQL schemas with indexed query performance and clean relational mapping.</p>
+        <div class="footer-col">
+          <p class="footer-col-title">Sections</p>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+          </ul>
         </div>
-
-        <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-shield-halved" style="color: var(--accent-purple);"></i> Auth &amp; Web Security</h3>
-          <p style="font-size: 0.95rem;">Role-based access controls, JWT authorization headers, and token refresh strategies.</p>
+        <div class="footer-col">
+          <p class="footer-col-title">Navigate</p>
+          <ul>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="https://linkedin.com/in/sufiyan-ahmad-ghani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://github.com/1sufiyanahmad" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="../index.html#team">← Team Portfolio</a></li>
+            <li><a href="../index.html">← Main Site</a></li>
+          </ul>
         </div>
       </div>
-    </section>
-  </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Sufiyan Ahmad Ghani. All rights reserved.</p>
+        <a href="#home" class="back-top" data-tip="Scroll to top">
+          Back to top <i class="fa-solid fa-chevron-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- JAVASCRIPT — clean, bug-free, all in one place -->
+  <script>
+    // 1. Copyright year (auto-updates every year)
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 2. Navbar shadow when user scrolls down
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function() {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // 3. Mobile hamburger toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMobile = document.getElementById('nav-mobile');
+
+    navToggle.addEventListener('click', function() {
+      var isOpen = navMobile.classList.toggle('open');
+      var icon = navToggle.querySelector('i');
+      icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    });
+
+    // Close mobile menu when a link is tapped
+    navMobile.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        navMobile.classList.remove('open');
+        navToggle.querySelector('i').className = 'fa-solid fa-bars';
+      });
+    });
+
+    // 4. Highlight active nav link on scroll
+    var allSections = document.querySelectorAll('section[id]');
+    var allNavLinks = document.querySelectorAll('.nav-links a[href^="#"], .nav-mobile a[href^="#"]');
+
+    function highlightNav() {
+      var scrollY = window.scrollY + 90;
+      var current = '';
+      allSections.forEach(function(sec) {
+        if (scrollY >= sec.offsetTop) current = sec.id;
+      });
+      allNavLinks.forEach(function(link) {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    }
+    window.addEventListener('scroll', highlightNav, { passive: true });
+    highlightNav();
+  </script>
+
 </body>
 </html>
