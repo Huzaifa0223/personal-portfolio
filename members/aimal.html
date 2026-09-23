@@ -10,13 +10,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="../styles.css">
   <style>
-    .member-page { padding-top: 5rem; min-height: 100vh; }
-    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: #f43f5e; font-weight: 600; }
-    .member-hero { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 3rem; margin-bottom: 3rem; backdrop-filter: blur(16px); }
-    .member-badge { display: inline-block; padding: 0.35rem 0.85rem; border-radius: var(--border-radius-full); background: rgba(244, 63, 94, 0.15); color: #f43f5e; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
-    .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .member-page { padding-top: 5rem; padding-bottom: 4rem; min-height: 100vh; }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: #fb7185; font-weight: 600; }
+    .member-hero { position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(127, 29, 29, 0.32), var(--bg-card) 58%); border: 1px solid rgba(251, 113, 133, 0.28); border-radius: var(--border-radius-lg); padding: clamp(2rem, 5vw, 3.5rem); margin-bottom: 3rem; backdrop-filter: blur(16px); }
+    .member-hero::after { content: ''; position: absolute; width: 18rem; height: 18rem; right: -7rem; top: -8rem; border: 1px solid rgba(251, 113, 133, 0.2); border-radius: 50%; box-shadow: 0 0 0 2rem rgba(251, 113, 133, 0.04), 0 0 0 4rem rgba(251, 113, 133, 0.03); }
+    .member-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; border-radius: var(--border-radius-full); background: rgba(244, 63, 94, 0.15); color: #fb7185; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
+    .member-hero h3 { color: #fb7185; margin-bottom: 1rem; }
+    .member-hero p { max-width: 700px; font-size: 1.1rem; margin-bottom: 1.5rem; }
+    .hero-buttons { position: relative; z-index: 1; }
+    .showcase-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem; }
+    .showcase-heading p { text-align: right; }
+    .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
     .showcase-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; transition: transform 0.2s ease, border-color 0.2s ease; }
-    .showcase-card:hover { transform: translateY(-4px); border-color: #f43f5e; }
+    .showcase-card:hover { transform: translateY(-4px); border-color: #fb7185; }
+    .showcase-card h3 { margin-bottom: 0.5rem; font-size: 1.2rem; }
+    .showcase-card h3 i { color: #fb7185; width: 1.4rem; }
+    .showcase-card p { font-size: 0.95rem; }
+    .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0 3rem; }
+    .metric { padding: 1.25rem; border-left: 2px solid #fb7185; background: rgba(244, 63, 94, 0.06); }
+    .metric strong { display: block; color: var(--text-primary); font-family: var(--font-heading); font-size: 1.8rem; }
+    .metric span { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .tool-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+    .tool { border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); padding: 0.45rem 0.7rem; color: var(--text-secondary); font-size: 0.85rem; }
+    .tool i { color: #fb7185; margin-right: 0.35rem; }
+    .edge-list { display: grid; gap: 0.7rem; margin-top: 1rem; }
+    .edge-list li { display: flex; align-items: start; gap: 0.6rem; color: var(--text-secondary); font-size: 0.9rem; }
+    .edge-list i { color: #34d399; margin-top: 0.3rem; }
+    @media (max-width: 700px) {
+      .showcase-heading { display: block; }
+      .showcase-heading p { text-align: left; margin-top: 0.5rem; }
+      .showcase-grid, .metric-row { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -26,9 +50,9 @@
     <div class="member-hero">
       <span class="member-badge"><i class="fa-solid fa-bug-slash"></i> QA &amp; Systems Verification Lab</span>
       <h1 class="hero-title">Aimal Khan</h1>
-      <h3 style="color: #f43f5e; margin-bottom: 1rem;">QA &amp; Systems Verification Lead</h3>
-      <p style="max-width: 650px; font-size: 1.1rem; margin-bottom: 1.5rem;">
-        Dedicated to breaking systems, uncovering edge cases, verifying responsive viewports down to 320px, and ensuring zero-defect production releases.
+      <h3>QA &amp; Systems Verification Lead</h3>
+      <p>
+        I turn “works on my machine” into evidence. My workflow combines exploratory testing, reproducible bug reports, and release gates that protect real users across devices, browsers, and failure states.
       </p>
 
       <div class="hero-buttons">
@@ -44,23 +68,48 @@
     </div>
 
     <section>
-      <h2>Quality Assurance &amp; Bug Bounty Station</h2>
-      <p>Automated checks, manual edge case matrix, and cross-browser diagnostics.</p>
+      <div class="showcase-heading">
+        <div>
+          <span class="section-tag" style="color: #fb7185;">Release confidence</span>
+          <h2>Quality Assurance &amp; Bug Bounty Station</h2>
+        </div>
+        <p>Evidence first. Assumptions last.</p>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric"><strong>320px</strong><span>smallest viewport verified</span></div>
+        <div class="metric"><strong>4 layers</strong><span>test depth per release</span></div>
+        <div class="metric"><strong>0 escapes</strong><span>goal after sign-off</span></div>
+      </div>
 
       <div class="showcase-grid">
         <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-mobile-screen" style="color: #f43f5e;"></i> Viewport Testing Matrix</h3>
-          <p style="font-size: 0.95rem;">Rigorous checks on 320px (SE), 375px (iPhone 12/13/14), 768px (iPad), and 4K displays.</p>
+          <h3><i class="fa-solid fa-mobile-screen"></i> Viewport Matrix</h3>
+          <p>Responsive checks across 320px, 375px, 768px, and 4K layouts, including zoom, orientation, and touch targets.</p>
+          <ul class="edge-list">
+            <li><i class="fa-solid fa-circle-check"></i><span>No horizontal overflow</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Readable at 200% zoom</span></li>
+          </ul>
         </div>
 
         <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-link-slash" style="color: #f43f5e;"></i> Broken Link Audits</h3>
-          <p style="font-size: 0.95rem;">Automated scanning of external anchors, smooth scroll targets, and relative file paths.</p>
+          <h3><i class="fa-solid fa-bug"></i> Edge-Case Log</h3>
+          <p>Focused hunts for the defects that hide between the happy paths and only appear under pressure.</p>
+          <ul class="edge-list">
+            <li><i class="fa-solid fa-circle-check"></i><span>Empty, long, and malformed inputs</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Slow network and missing assets</span></li>
+          </ul>
         </div>
 
         <div class="showcase-card">
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;"><i class="fa-solid fa-gauge-high" style="color: #f43f5e;"></i> Web Vitals &amp; Performance</h3>
-          <p style="font-size: 0.95rem;">Lighthouse audits for Cumulative Layout Shift (CLS), Largest Contentful Paint (LCP), and contrast accessibility.</p>
+          <h3><i class="fa-solid fa-screwdriver-wrench"></i> Verification Toolkit</h3>
+          <p>Repeatable checks for links, accessibility, performance, and behavior before a release gets a green light.</p>
+          <div class="tool-list">
+            <span class="tool"><i class="fa-solid fa-gauge-high"></i>Lighthouse</span>
+            <span class="tool"><i class="fa-solid fa-code"></i>DevTools</span>
+            <span class="tool"><i class="fa-solid fa-link"></i>Link audit</span>
+            <span class="tool"><i class="fa-solid fa-universal-access"></i>WCAG</span>
+          </div>
         </div>
       </div>
     </section>
