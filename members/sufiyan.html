@@ -229,6 +229,17 @@
       display:flex; align-items:center; justify-content:center;
       font-size:5rem; color:#fff;
       box-shadow:var(--sh-lg); border:6px solid #fff;
+      overflow:hidden;               /* keeps the photo clipped to the circle */
+      position:relative;
+    }
+    /* This targets an <img> placed INSIDE .hero-avatar and makes it
+       fill the circle perfectly without stretching or spilling out */
+    .hero-avatar img {
+      width:100%;
+      height:100%;
+      object-fit:cover;              /* crops the photo to fill the circle, no stretching */
+      object-position:center top;    /* keeps faces centered, not cut off at the top */
+      border-radius:50%;
     }
 
     /* ── STATS BAR ──────────────────────────────────────────── */
@@ -589,7 +600,7 @@
         </div>
         <div class="hero-right">
           <div class="hero-avatar" data-tip="Sufiyan Ahmad Ghani">
-            <i class="fa-solid fa-laptop-code"></i>
+            <img src="../assets/images/sufiyan.jpg" alt="Sufiyan Ahmad Ghani" />
           </div>
         </div>
       </div>
